@@ -4,8 +4,6 @@ import "./App.css";
 
 import { useNavigate } from "react-router";
 import { Route, Routes } from "react-router-dom";
-
-import { Helmet } from "react-helmet";
 import { BRAND_NAME } from "./config";
 // routes
 import SignUp from "./pages/SignUp";
@@ -29,13 +27,9 @@ function App() {
   // }, []);
   return (
     <>
-      <Helmet>
-        <title>{BRAND_NAME}</title>
-        <style></style>
-      </Helmet>
       <div className="App">
         <Routes>
-          <Route index exactPath="/" element={<Home />} />
+          <Route index path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgot-password" element={<></>} />

@@ -114,7 +114,7 @@ export default function SignUp() {
           mobile: err.mobile || [],
         }));
       } catch (err) {
-        cosnole.log(err);
+        console.log(err);
       }
     },
     password: (input: string) => {
@@ -228,7 +228,7 @@ export default function SignUp() {
                   id="firstName"
                   label="First Name"
                   // debounce and handle onChange
-                  onChange={debounce((e) => {
+                  onChange={debounce((e : any) => {
                     handlers.firstName(e.target.value);
                   }, 200)}
                   autoFocus
@@ -252,7 +252,7 @@ export default function SignUp() {
                   id="lastName"
                   label="Last Name"
                   name="lastName"
-                  onChange={debounce((e) => {
+                  onChange={debounce((e : any) => {
                     handlers.lastName(e.target.value);
                   }, 200)}
                   autoComplete="family-name"
@@ -267,7 +267,7 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  onChange={debounce((e) => {
+                  onChange={debounce((e : any) => {
                     handlers.email(e.target.value);
                   }, 200)}
                 />
@@ -282,7 +282,7 @@ export default function SignUp() {
                   label="Mobile Number"
                   name="mobile"
                   autoComplete="mobile"
-                  onChange={debounce((e) => {
+                  onChange={debounce((e : any) => {
                     handlers.mobile(Number(e.target.value));
                   }, 200)}
                 />
@@ -296,7 +296,7 @@ export default function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
-                  onChange={debounce((e) => {
+                  onChange={debounce((e : any) => {
                     handlers.password(e.target.value);
                   }, 200)}
                   autoComplete="new-password"
@@ -311,7 +311,7 @@ export default function SignUp() {
                   label="Comfirm Password"
                   type="password"
                   id="comfirm-password"
-                  onChange={debounce((e) => {
+                  onChange={debounce((e : any) => {
                     handlers.confirmPassword(e.target.value);
                   }, 200)}
                   autoComplete="new-password"
@@ -329,7 +329,7 @@ export default function SignUp() {
                     id="select-quilification"
                     label="Select Qualification"
                     value={formData.qualification}
-                    onChange={debounce((e) => {
+                    onChange={debounce((e : any) => {
                       handlers.qualification(e.target.value);
                     }, 200)}
                     fullWidth

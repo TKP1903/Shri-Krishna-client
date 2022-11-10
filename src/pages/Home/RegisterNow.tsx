@@ -18,8 +18,6 @@ export default function RegisterNow() {
       <Button
         variant="text"
         color="primary"
-        target="_blank"
-        rel="noopener noreferrer"
         onClick={() => {
           navigate("/signup");
         }}

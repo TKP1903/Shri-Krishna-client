@@ -8,7 +8,7 @@ import CardMedia from '@mui/material/CardMedia';
 
 interface FeaturedPostProps {
   post: {
-    date: string;
+    subject: string;
     description: string;
     image: string;
     imageLabel: string;

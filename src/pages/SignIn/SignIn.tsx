@@ -131,7 +131,7 @@ export default function SignIn() {
               label="Email Address"
               name="email"
               autoComplete="email"
-              onChange={debounce((e) => handle.email(e.target.value), 500)}
+              onChange={debounce((e : any) => handle.email(e.target.value), 500)}
               autoFocus
             />
             <ErrorsMapper errors={errors.email} />
@@ -143,13 +143,13 @@ export default function SignIn() {
               label="Password"
               type="password"
               id="password"
-              onChange={debounce((e) => handle.password(e.target.value), 500)}
+              onChange={debounce((e : any) => handle.password(e.target.value), 500)}
               autoComplete="current-password"
             />
             <ErrorsMapper errors={errors.password} />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              onChange={(e) => handle.rememberMe(e.target.checked)}
+              onChange={(e : any) => handle.rememberMe(e.target.checked)}
               label="Remember me"
             />
             <Button

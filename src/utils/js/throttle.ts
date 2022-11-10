@@ -11,7 +11,7 @@ export default function throttle(func: Function, wait: number) {
     context = args = null;
   };
 
-  return function executedFunction(...args: any[]) {
+  return function executedFunction(this: any, ...args: any[]) {
     if (!timeout) {
       timeout = setTimeout(later, wait);
       context = this;

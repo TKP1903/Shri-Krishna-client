@@ -11,7 +11,7 @@ export default function Navbar({
 }: {
   sections: ReadonlyArray<{ title: string; url: string }>;
 }) {
-  const mobileMenuRef = useRef(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   return (
     <>
@@ -70,10 +70,10 @@ export default function Navbar({
           size="small"
           onClick={() => {
             try {
-              mobileMenuRef.current.style.display = "none!important";
-              mobileMenuRef.current.style.visibility = "hidden";
-              mobileMenuRef.current.style.opacity = "0";
-              mobileMenuRef.current.style.pointerEvents = "none";
+              mobileMenuRef.current!.style!.display = "none!important";
+              mobileMenuRef.current!.style!.visibility = "hidden";
+              mobileMenuRef.current!.style!.opacity = "0";
+              mobileMenuRef.current!.style!.pointerEvents = "none";
             } catch (er) {
               console.log(er);
             }

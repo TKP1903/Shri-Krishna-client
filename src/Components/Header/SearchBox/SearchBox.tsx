@@ -28,7 +28,7 @@ export default function SearchBox() {
           label="Search"
           variant="outlined"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e : any) => setSearch(e.target.value)}
           style={{ width: "100%" }}
         />
         <Button
