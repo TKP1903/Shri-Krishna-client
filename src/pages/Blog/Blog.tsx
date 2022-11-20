@@ -120,22 +120,8 @@ export default function Blog() {
               marginLeft: "-2px",
             }}
           >
-            <MainFeaturedPost post={mainFeaturedPost} />
-            <Grid
-              container
-              spacing={4}
-              style={{
-                paddingTop: "0rem",
-                margin: "0 auto",
-                display: "flex",
-                flexDirection: "column",
-                gap: "10px",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <RegisterNow />
-            </Grid>
+            {/* <MainFeaturedPost post={mainFeaturedPost} /> */}
+            <RegisterNow />
             <Typography
               variant="h4"
               style={{

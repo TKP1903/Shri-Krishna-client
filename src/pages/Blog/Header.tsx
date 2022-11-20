@@ -24,48 +24,20 @@ export default function Header(props: HeaderProps) {
   return (
     <React.Fragment>
       <Toolbar
-        sx={{ borderBottom: 1, borderColor: "divider" }}
-        className="header-title"
+        sx={{
+          borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
+        }}
       >
-        <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
-          <Button
-            size="small"
-            variant="contained"
-            onClick={() => {
-              navigate("/signin");
-            }}
-          >
-            Sign In
-          </Button>
-          <Button
-            variant="outlined"
-            size="small"
-            onClick={() => {
-              navigate("/signup");
-            }}
-          >
-            Sign up
-          </Button>
-        </div>
         <Typography
-          component="h2"
-          variant="h5"
+          variant="h6"
           color="inherit"
-          align="center"
           noWrap
           sx={{ flex: 1 }}
-          style={{ cursor: "text", fontSize: "2rem" }}
+          onClick={() => navigate("/")}
         >
           {title}
         </Typography>
-        <div className="searchBox-desktop">
-          <SearchBox />
-        </div>
       </Toolbar>
-      <Navbar sections={sections} />
-      <div className="searchBox-mobile">
-        <SearchBox />
-      </div>
     </React.Fragment>
   );
 }

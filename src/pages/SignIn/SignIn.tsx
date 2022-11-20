@@ -13,6 +13,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
 // custom imports
 import { isValidEmail, isValidPassword } from "../../utils/validators";
@@ -47,6 +48,11 @@ const formData = {
 };
 
 export default function SignIn() {
+  const navigate = useNavigate();
+  if (localStorage.getItem("token")) {
+    // redirect to classroom
+    navigate("/classroom");
+  }
   const [rememberMe, setRememberMe] = useState(false);
   const [errors, setErrors] = useState<{
     email: string[];
@@ -91,12 +97,28 @@ export default function SignIn() {
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    try {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      console.log({
+        email: data.get("email"),
+        password: data.get("password"),
+      });
+
+      // TODO: send data to server
+      // const res = login({
+      //   email: data.get("email"),
+      //   password: data.get("password"),
+      // });
+      // if (rememberMe) {
+      //    localStorage.setItem("token", res.token);
+      // } else {
+      //    sessionStorage.setItem("token", res.token);
+      // }
+      // navigate("/classroom");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -117,62 +139,82 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "1rem",
+              margin: "1rem 0",
+              backgroundColor: "#f5f5f5",
+              borderRadius: "0.5rem",
+              boxShadow: "0 0 0.5rem #00000020",
+            }}
           >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              onChange={debounce((e : any) => handle.email(e.target.value), 500)}
-              autoFocus
-            />
-            <ErrorsMapper errors={errors.email} />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              onChange={debounce((e : any) => handle.password(e.target.value), 500)}
-              autoComplete="current-password"
-            />
-            <ErrorsMapper errors={errors.password} />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              onChange={(e : any) => handle.rememberMe(e.target.checked)}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              noValidate
+              sx={{ mt: 1 }}
             >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="/forgot-password" variant="body2">
-                  Forgot password?
-                </Link>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                onChange={debounce(
+                  (e: any) => handle.email(e.target.value),
+                  500
+                )}
+                autoFocus
+              />
+              <ErrorsMapper errors={errors.email} />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                onChange={debounce(
+                  (e: any) => handle.password(e.target.value),
+                  500
+                )}
+                autoComplete="current-password"
+              />
+              <ErrorsMapper errors={errors.password} />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                onChange={(e: any) => handle.rememberMe(e.target.checked)}
+                label="Remember me"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <Link href="/forgot-password" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link href="/signup" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Link href="/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
+            </Box>
+          </div>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>

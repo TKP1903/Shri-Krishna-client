@@ -20,10 +20,11 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+import { useSnackbar } from "notistack";
 import { ErrorsMapper } from "../../Components/common";
 import {
   isValidEmail,
-  isValidMobile,
+  isValidPhone,
   isValidPassword,
   isValidUsername,
   isValidName,
@@ -31,6 +32,10 @@ import {
 import { BRAND_NAME } from "../../config";
 import { useReload } from "../../utils/hooks";
 import { debounce, throttle } from "../../utils/js";
+import { register } from "../../utils/api/auth";
+import { RegisterDetails } from "../../types";
+import __CountryCodes from "../../data/names&codes.json";
+
 
 function Copyright(props: any) {
   return (
@@ -50,35 +55,54 @@ function Copyright(props: any) {
   );
 }
 
+const CountryCodes = __CountryCodes as Array<{
+  country: string;
+  code: string;
+  dail: string;
+}>;
 const theme = createTheme();
 
 const formData: {
   email: string;
-  mobile: number;
+  phone: number;
+  dailCode: string;
   password: string;
-  confirmPassword: string;
   firstName: string;
   lastName: string;
   qualification: string;
 } = {
   email: "",
-  mobile: 0,
+  phone: 0,
+  dailCode: "91",
   password: "",
-  confirmPassword: "",
   firstName: "",
   lastName: "",
   qualification: "",
 };
 
+const CountryCodeMenuItems = CountryCodes.map((obj) => (
+  <MenuItem value={obj.dail}>
+    <img
+      src={`https://countryflagsapi.com/png/${obj.code.toLowerCase()}`}
+      alt={obj.code}
+      width={27}
+      height={15}
+      style={{ marginRight: "10px" }}
+      loading="lazy"
+    />
+    ({obj.dail}) {obj.country}
+  </MenuItem>
+));
+
 export default function SignUp() {
   const reload = useReload();
 
-  const [qualification, setQualification] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
   const [isAgreed, setIsAgreed] = useState(false);
 
   const [errors, setErrors] = useState({
     email: [""],
-    mobile: [""],
+    phone: [""],
     password: [""],
     confirmPassword: [""],
     firstName: [""],
@@ -103,15 +127,15 @@ export default function SignUp() {
         console.log(err);
       }
     },
-    mobile: (input: number) => {
+    phone: (input: number) => {
       try {
-        const err = isValidMobile(input);
-        if (err.mobile.length === 0) {
-          formData.mobile = input;
+        const err = isValidPhone(input);
+        if (err.phone.length === 0) {
+          formData.phone = input;
         }
         setErrors((prev) => ({
           ...prev,
-          mobile: err.mobile || [],
+          phone: err.phone || [],
         }));
       } catch (err) {
         console.log(err);
@@ -147,7 +171,6 @@ export default function SignUp() {
           }));
           return;
         }
-        formData.confirmPassword = input;
         setErrors((prev) => ({
           ...prev,
           confirmPassword: [],
@@ -178,20 +201,44 @@ export default function SignUp() {
       formData.qualification = input;
       reload();
     },
+    dailCode: (input: string) => {
+      formData.dailCode = input;
+      reload();
+    },
     isAgreed: (input: boolean) => {
       setIsAgreed(input);
     },
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    console.log({ formData });
+  }, [formData]);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSubmitting(true);
     try {
-      event.preventDefault();
-      const data = new FormData(event.currentTarget);
-      console.log({
-        email: data.get("email"),
-        password: data.get("password"),
-      });
-    } catch (err) {}
+      const userDetails: RegisterDetails = {
+        name: `${formData.firstName} ${formData.lastName}`,
+        password: formData.password,
+        email: formData.email,
+        phone: {
+          dailCode: "+91",
+          number: formData.phone,
+        },
+        qualification: formData.qualification,
+        country: "India",
+      };
+      const user = await register(userDetails);
+      console.log({ user });
+    } catch (err: any) {
+      console.log(err);
+      if (!!err?.message) {
+        enqueueSnackbar(err?.message || "Something went wrong", {
+          variant: "error",
+        });
+      }
+    }
   };
 
   return (
@@ -212,161 +259,216 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={debounce(handleSubmit, 1000)}
-            sx={{ mt: 3 }}
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "1rem",
+              margin: "1rem 0",
+              backgroundColor: "#f5f5f5",
+              borderRadius: "0.5rem",
+              boxShadow: "0 0 0.5rem #00000020",
+            }}
           >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  // debounce and handle onChange
-                  onChange={debounce((e : any) => {
-                    handlers.firstName(e.target.value);
-                  }, 200)}
-                  autoFocus
-                />
-                <Stack>
-                  {!!errors &&
-                    !!errors.firstName &&
-                    !!errors.firstName.length &&
-                    !!errors.firstName[0] &&
-                    errors.firstName.map((err, i) => (
-                      <Alert severity="error" key={i}>
-                        {err}
-                      </Alert>
-                    ))}
-                </Stack>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  onChange={debounce((e : any) => {
-                    handlers.lastName(e.target.value);
-                  }, 200)}
-                  autoComplete="family-name"
-                />
-                <ErrorsMapper errors={errors.lastName} />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  onChange={debounce((e : any) => {
-                    handlers.email(e.target.value);
-                  }, 200)}
-                />
-                <ErrorsMapper errors={errors.email} />
-              </Grid>
-              {/* mobile number */}
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="mobile"
-                  label="Mobile Number"
-                  name="mobile"
-                  autoComplete="mobile"
-                  onChange={debounce((e : any) => {
-                    handlers.mobile(Number(e.target.value));
-                  }, 200)}
-                />
-                <ErrorsMapper errors={errors.mobile} />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  onChange={debounce((e : any) => {
-                    handlers.password(e.target.value);
-                  }, 200)}
-                  autoComplete="new-password"
-                />
-                <ErrorsMapper errors={errors.password} />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="confirm-password"
-                  label="Comfirm Password"
-                  type="password"
-                  id="comfirm-password"
-                  onChange={debounce((e : any) => {
-                    handlers.confirmPassword(e.target.value);
-                  }, 200)}
-                  autoComplete="new-password"
-                />
-                <ErrorsMapper errors={errors.confirmPassword} />
-              </Grid>
-              {/* select qulification 11th 12th Graduate Post-Graduate */}
-              <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel id="label-select-quilification">
-                    Select Qualification
-                  </InputLabel>
-                  <Select
-                    labelId="label-select-quilification"
-                    id="select-quilification"
-                    label="Select Qualification"
-                    value={formData.qualification}
-                    onChange={debounce((e : any) => {
-                      handlers.qualification(e.target.value);
-                    }, 200)}
-                    fullWidth
-                  >
-                    <MenuItem value="11th">11th</MenuItem>
-                    <MenuItem value="12th">12th</MenuItem>
-                    <MenuItem value="Graduate">Graduate</MenuItem>
-                    <MenuItem value="Post-Graduate">Post-Graduate</MenuItem>
-                  </Select>
-                </FormControl>
-                <ErrorsMapper errors={errors.qualification} />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive updates via email."
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              fullWidth
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 3 }}
             >
-              Sign Up
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/signin" variant="body2">
-                  Already have an account? Sign in
-                </Link>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    autoComplete="given-name"
+                    name="firstName"
+                    required
+                    fullWidth
+                    id="firstName"
+                    label="First Name"
+                    // debounce and handle onChange
+                    onChange={debounce((e: any) => {
+                      handlers.firstName(e.target.value);
+                    }, 200)}
+                    autoFocus
+                  />
+                  <ErrorsMapper errors={errors.firstName} />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="lastName"
+                    label="Last Name"
+                    name="lastName"
+                    onChange={debounce((e: any) => {
+                      handlers.lastName(e.target.value);
+                    }, 200)}
+                    autoComplete="family-name"
+                  />
+                  <ErrorsMapper errors={errors.lastName} />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    onChange={debounce((e: any) => {
+                      handlers.email(e.target.value);
+                    }, 200)}
+                  />
+                  <ErrorsMapper errors={errors.email} />
+                </Grid>
+                {/* phone number */}
+                <Grid item xs={12}>
+                  <Grid container xs={12} spacing={0}>
+                    <Grid item xs={3}>
+                      <FormControl
+                        // fix width and leave gap
+                        sx={{ width: "90%" }}
+                      >
+                        <InputLabel id="label-country-code">
+                          Country Code
+                        </InputLabel>
+                        <Select
+                          labelId="label-country-code"
+                          id="country-code"
+                          value={formData.dailCode}
+                          label="Country Code"
+                          MenuProps={{
+                            // reduce height of dropdown
+                            PaperProps: {
+                              style: {
+                                maxHeight: 48 * 4.5 + 8,
+                                width: 250,
+                              },
+                            },
+                          }}
+                          onChange={debounce((e: any) => {
+                            handlers.dailCode(e.target.value);
+                          }, 100)}
+                        >
+                          {CountryCodeMenuItems}
+                          {/* {CountryCodes.map((obj) => (
+                          <MenuItem value={obj.dail}>
+                            <img
+                              src={`https://countryflagsapi.com/png/${obj.code.toLowerCase()}`}
+                              alt={obj.code}
+                              width={32}
+                              height={32}
+                              style={{ marginRight: "10px" }}
+                              loading="lazy"
+                            />
+                            {obj.country} ({obj.dail})
+                          </MenuItem>
+                        ))} */}
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={9}>
+                      <TextField
+                        required
+                        fullWidth
+                        id="phone"
+                        label="Phone Number"
+                        name="phone"
+                        autoComplete="phone"
+                        onChange={debounce((e: any) => {
+                          handlers.phone(Number(e.target.value));
+                        }, 200)}
+                      />
+                      <ErrorsMapper errors={errors.phone} />
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    onChange={debounce((e: any) => {
+                      handlers.password(e.target.value);
+                    }, 200)}
+                    autoComplete="new-password"
+                  />
+                  <ErrorsMapper errors={errors.password} />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="confirm-password"
+                    label="Comfirm Password"
+                    type="password"
+                    id="comfirm-password"
+                    onChange={debounce((e: any) => {
+                      handlers.confirmPassword(e.target.value);
+                    }, 200)}
+                    autoComplete="new-password"
+                  />
+                  <ErrorsMapper errors={errors.confirmPassword} />
+                </Grid>
+                {/* select qulification 11th 12th Graduate Post-Graduate */}
+                <Grid item xs={12}>
+                  <FormControl fullWidth>
+                    <InputLabel id="label-select-qualification">
+                      Select Qualification
+                    </InputLabel>
+                    <Select
+                      labelId="label-select-qualification"
+                      id="select-qualification"
+                      label="Select Qualification"
+                      value={formData.qualification}
+                      onChange={debounce((e: any) => {
+                        handlers.qualification(e.target.value);
+                      }, 200)}
+                      fullWidth
+                    >
+                      <MenuItem value="11th">11th</MenuItem>
+                      <MenuItem value="12th">12th</MenuItem>
+                      <MenuItem value="Graduate">Graduate</MenuItem>
+                      <MenuItem value="Post-Graduate">Post-Graduate</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <ErrorsMapper errors={errors.qualification} />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        value="allowExtraEmails"
+                        color="primary"
+                        onChange={(e) => {}}
+                      />
+                    }
+                    label="I want to receive updates via email."
+                  />
+                </Grid>
               </Grid>
-            </Grid>
-          </Box>
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                fullWidth
+              >
+                Sign Up
+              </Button>
+              <Grid container justifyContent="flex-end">
+                <Grid item>
+                  <Link href="/signin" variant="body2">
+                    Already have an account? Sign in
+                  </Link>
+                </Grid>
+              </Grid>
+            </Box>
+          </div>
         </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>

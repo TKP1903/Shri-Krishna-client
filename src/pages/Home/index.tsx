@@ -1,2 +1,5 @@
-import Blog from './Blog';
-export default Blog;
+import Home from './Home';
+
+
+
+export default Home;
