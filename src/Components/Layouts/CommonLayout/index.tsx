@@ -1,25 +1,25 @@
-import "../../../styles/common-layout.css";
+import '../../../styles/common-layout.css';
 
 // react
-import * as React from "react";
+import * as React from 'react';
 
-import StarIcon from "@mui/icons-material/StarBorder";
-import Container from "@mui/material/Container";
+import StarIcon from '@mui/icons-material/StarBorder';
+import Container from '@mui/material/Container';
 // mui components
-import CssBaseline from "@mui/material/CssBaseline";
-import GlobalStyles from "@mui/material/GlobalStyles";
-import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
-import Typography from "@mui/material/Typography";
+import CssBaseline from '@mui/material/CssBaseline';
+import GlobalStyles from '@mui/material/GlobalStyles';
+import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
 // mui hooks
-import useMediaQuery from "@mui/material/useMediaQuery";
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-import { ScrollContextProvider } from "../../../helpers/ScrollContext";
+import { ScrollContextProvider } from '../../../helpers/ScrollContext';
 // local components
-import DesktopNavbar from "./DesktopNavbar";
-import MobileMenu from "./MobileMenu";
-import MobileNavbar from "./MobileNavbar";
-import TopHeader from "./TopHeader";
+import DesktopNavbar from './DesktopNavbar';
+import MobileMenu from './MobileMenu';
+import MobileNavbar from './MobileNavbar';
+import TopHeader from './TopHeader';
 
 function Copyright(props: any) {
   return (

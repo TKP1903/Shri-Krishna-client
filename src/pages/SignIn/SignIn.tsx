@@ -1,3 +1,4 @@
+import { useSnackbar } from "notistack";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -52,6 +53,7 @@ const formData = {
 };
 
 export default function SignIn() {
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   if (localStorage.getItem("token")) {
     // redirect to classroom
@@ -115,15 +117,23 @@ export default function SignIn() {
       const res: LoginResponse = await login(loginDetails);
 
       if (rememberMe) {
-        localStorage.setItem("access_token", res.AuthTokens.access.token);
-        localStorage.setItem("refresh_token", res.AuthTokens.refresh.token);
+        localStorage.setItem("access_token", res.tokens.access.token);
+        localStorage.setItem("refresh_token", res.tokens.refresh.token);
       } else {
-        sessionStorage.setItem("access_token", res.AuthTokens.access.token);
-        sessionStorage.setItem("refresh_token", res.AuthTokens.refresh.token);
+        sessionStorage.setItem("access_token", res.tokens.access.token);
+        sessionStorage.setItem("refresh_token", res.tokens.refresh.token);
       }
+
+      enqueueSnackbar("Login Successful", {
+        variant: "success",
+      });
       navigate("/user-panel");
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
+      enqueueSnackbar(
+        err.message || "Unkown Error, Please contact your administrator",
+        { variant: "error" }
+      );
     }
   };
 

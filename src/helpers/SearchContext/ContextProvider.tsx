@@ -1,9 +1,13 @@
-import { useEffect, useState, createContext } from "react";
+import { useEffect, useState, createContext, useContext } from "react";
 
 export const SearchContext = createContext({
-    search: "",
-    setSearch: (search: string) => {},
+  search: "",
+  setSearch: (search: string) => {},
 });
+
+export const useSearchContext = () => {
+  return useContext(SearchContext);
+};
 
 export function SearchContextProvider({
   children,

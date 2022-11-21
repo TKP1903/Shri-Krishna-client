@@ -40,7 +40,7 @@ export interface LoginResponse {
     name: string;
     role: "user" | "admin";
   };
-  AuthTokens: {
+  tokens: {
     access: token;
     refresh: token;
   };

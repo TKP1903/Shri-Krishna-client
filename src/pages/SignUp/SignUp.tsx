@@ -1,41 +1,43 @@
+import { useSnackbar } from "notistack";
 import * as React from "react";
-import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Alert from "@mui/material/Alert";
 import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
+import InputLabel from "@mui/material/InputLabel";
+import Link from "@mui/material/Link";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
-import Alert from "@mui/material/Alert";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 
-import { useSnackbar } from "notistack";
 import { ErrorsMapper } from "../../Components/common";
-import {
-  isValidEmail,
-  isValidPhone,
-  isValidPassword,
-  isValidUsername,
-  isValidName,
-} from "../../utils/validators";
 import { BRAND_NAME } from "../../config";
+import __CountryCodes from "../../data/names&codes.json";
+import { RegisterDetails } from "../../types";
+import { register } from "../../utils/api/auth";
 import { useReload } from "../../utils/hooks";
 import { debounce, throttle } from "../../utils/js";
-import { register } from "../../utils/api/auth";
-import { RegisterDetails } from "../../types";
-import __CountryCodes from "../../data/names&codes.json";
+import {
+  isValidEmail,
+  isValidName,
+  isValidPassword,
+  isValidPhone,
+  isValidUsername,
+} from "../../utils/validators";
 
+const { useState, useEffect, useRef } = React;
 
 function Copyright(props: any) {
   return (
@@ -95,9 +97,10 @@ const CountryCodeMenuItems = CountryCodes.map((obj) => (
 ));
 
 export default function SignUp() {
+  const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
   const reload = useReload();
 
-  const { enqueueSnackbar } = useSnackbar();
   const [isAgreed, setIsAgreed] = useState(false);
 
   const [errors, setErrors] = useState({
@@ -210,6 +213,7 @@ export default function SignUp() {
     },
   };
 
+  // debug only
   useEffect(() => {
     console.log({ formData });
   }, [formData]);
@@ -230,6 +234,8 @@ export default function SignUp() {
         country: "India",
       };
       const user = await register(userDetails);
+      enqueueSnackbar("Registered successfully", { variant: "success" });
+      navigate("/login");
       console.log({ user });
     } catch (err: any) {
       console.log(err);
@@ -462,7 +468,7 @@ export default function SignUp() {
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="/signin" variant="body2">
+                  <Link href="/login" variant="body2">
                     Already have an account? Sign in
                   </Link>
                 </Grid>
