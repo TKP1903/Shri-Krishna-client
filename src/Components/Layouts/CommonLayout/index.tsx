@@ -1,30 +1,25 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardHeader from "@mui/material/CardHeader";
-import CssBaseline from "@mui/material/CssBaseline";
-import Grid from "@mui/material/Grid";
-import StarIcon from "@mui/icons-material/StarBorder";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
-import GlobalStyles from "@mui/material/GlobalStyles";
-import Container from "@mui/material/Container";
+import "../../../styles/common-layout.css";
 
-// media queries
+// react
+import * as React from "react";
+
+import StarIcon from "@mui/icons-material/StarBorder";
+import Container from "@mui/material/Container";
+// mui components
+import CssBaseline from "@mui/material/CssBaseline";
+import GlobalStyles from "@mui/material/GlobalStyles";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
+import Typography from "@mui/material/Typography";
+// mui hooks
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-import BrandLogo from "../../BrandLogo";
-import Navbar from "./DesktopNavbar";
-import MobileNavbar from "./MobileNavbar";
+import { ScrollContextProvider } from "../../../helpers/ScrollContext";
+// local components
+import DesktopNavbar from "./DesktopNavbar";
 import MobileMenu from "./MobileMenu";
+import MobileNavbar from "./MobileNavbar";
 import TopHeader from "./TopHeader";
-
-import { BRAND_NAME } from "../../../config";
 
 function Copyright(props: any) {
   return (
@@ -90,11 +85,14 @@ export default function Master({
   children: React.ReactNode;
   HeroSection: () => JSX.Element;
 }) {
-  import("../../../styles/common-layout.css");
-  const matches = useMediaQuery("(min-width:700px)");
+  const isDesktopScreen = useMediaQuery("(min-width:700px)");
 
-  const MobileNav = !matches ? MobileNavbar : React.Fragment;
-  const DesktopNav = matches ? Navbar : React.Fragment;
+  const MobileNav = !isDesktopScreen
+    ? MobileNavbar
+    : (props: React.ComponentPropsWithRef<any>) => <></>;
+  const DesktopNav = isDesktopScreen
+    ? DesktopNavbar
+    : (props: React.ComponentPropsWithRef<any>) => <></>;
 
   React.useEffect(() => {
     return () => {
@@ -108,7 +106,7 @@ export default function Master({
     };
   }, []);
   return (
-    <React.Fragment>
+    <ScrollContextProvider>
       <GlobalStyles
         styles={{ ul: { margin: 0, padding: 0, listStyle: "none" } }}
       />
@@ -116,7 +114,7 @@ export default function Master({
       <Container
         maxWidth="xl"
         style={{
-          backgroundImage: "url(hero-background.jpg)",
+          backgroundImage: "url(hero-background.webp)",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
@@ -126,12 +124,6 @@ export default function Master({
         }}
       >
         <TopHeader DesktopNav={DesktopNav} sections={sections} />
-        <AppBar className="navbar" position="fixed">
-          <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-            <BrandLogo title={BRAND_NAME} />
-          </Typography>
-          <DesktopNav sections={sections} title="Shri Krishna Institute" />
-        </AppBar>
         {/* Hero unit */}
         <Container
           disableGutters
@@ -205,6 +197,6 @@ export default function Master({
         ]}
       />
       {/* End footer */}
-    </React.Fragment>
+    </ScrollContextProvider>
   );
 }

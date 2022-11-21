@@ -1,79 +1,83 @@
 import * as React from "react";
-import { useEffect } from "react";
+
 import AppBar from "@mui/material/AppBar";
 import Typography from "@mui/material/Typography";
-import BrandLogo from "../../BrandLogo";
+
 import { BRAND_NAME } from "../../../config";
-
+import { ScrollContext } from "../../../helpers/ScrollContext";
+import { useIsChanged } from "../../../utils/hooks";
 import { throttle } from "../../../utils/js";
+import BrandLogo from "../../BrandLogo";
 
-export default ({
+const { useState, useEffect, useContext } = React;
+
+const navbarStyles: any = {
+  top: {
+    backgroundColor: "transparent",
+    boxShadow: "none",
+    position: "sticky",
+  },
+  scrollUp: {
+    position: "fixed",
+    transform: "translateY(0)",
+    transition: "transform 0.3s ease-in-out",
+  },
+  scrollDown: {
+    position: "fixed",
+    transform: "translateY(-100%)",
+    transition: "transform 0.3s ease-in-out",
+  },
+};
+const commonStyles = {
+  zIndex: 99,
+};
+
+// add baseline to all properties in navbarStyles
+Object.keys(navbarStyles).forEach((key, index) => {
+  navbarStyles[key] = { ...commonStyles, ...navbarStyles[key] };
+  console.log({ index, style: navbarStyles[key] });
+});
+
+interface section {
+  title: string;
+  url: string;
+}
+type sectionsType = readonly section[];
+
+export default function ({
   DesktopNav,
   sections,
 }: {
-  DesktopNav:
-    | React.ExoticComponent<{
-        children?: React.ReactNode;
-      }>
-    | (({
-        sections,
-        title,
-      }: {
-        sections: readonly {
-          title: string;
-          url: string;
-        }[];
-        title: string;
-      }) => JSX.Element);
-  sections: readonly {
+  DesktopNav: ({
+    sections,
+    title,
+  }: {
+    sections: readonly section[];
     title: string;
-    url: string;
-  }[];
-}) => {
+  }) => JSX.Element;
+  sections: sectionsType;
+}) {
   /**
    * change navbarstyle when scroll
    * change color, background-color, box-shadow
    * fix the navbar to the top of the page when scroll up
    * hide the navbar when scroll down
    * */
-  const [navbarStyle, setNavbarStyle] = React.useState<React.CSSProperties>(
-    navbarStyles.NO_SCROLL
+  const [navbarStyle, setNavbarStyle] = useState<React.CSSProperties>(
+    navbarStyles.top
   );
 
-  const [scrollDirection, setScrollDirection] = React.useState<
-    "up" | "down" | "none"
-  >("none");
+  const { scrollDirection } = useContext(ScrollContext);
 
-  const onScroll = throttle(
-    (() => {
-      const lastY = window.scrollY;
-      let ticking = false;
-      return () => {
-        if (!ticking) {
-          window.requestAnimationFrame(() => {
-            const currentY = window.scrollY;
-            if (currentY > lastY) {
-              setScrollDirection("down");
-            } else if (currentY < lastY) {
-              setScrollDirection("up");
-            }
-            ticking = false;
-          });
-          ticking = true;
-        }
-      };
-    })(),
-    250
-  );
+  const scrollDirIsChanged = useIsChanged(scrollDirection);
 
   useEffect(() => {
-    window.addEventListener("scroll", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, []);
-
-  useEffect(() => {
+    console.log({ scrollDirection });
+    const setTopStyles = throttle(() => {
+      if (window.scrollY < 100 && scrollDirIsChanged(scrollDirection)) {
+        setNavbarStyle(navbarStyles.top);
+      }
+    }, 250);
     switch (scrollDirection) {
       case "up":
         setNavbarStyle(navbarStyles.scrollUp);
@@ -81,21 +85,18 @@ export default ({
       case "down":
         setNavbarStyle(navbarStyles.scrollDown);
         break;
-      case "none":
-        setNavbarStyle(navbarStyles.NO_SCROLL);
-        break;
-      default:
-        setNavbarStyle(navbarStyles.NO_SCROLL);
-        break;
     }
+    window.addEventListener("scroll", setTopStyles);
+
+    return () => {
+      window.removeEventListener("scroll", setTopStyles);
+    };
   }, [scrollDirection]);
 
   return (
-    <AppBar className="navbar" position="fixed">
-      <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-        <BrandLogo title={BRAND_NAME} />
-      </Typography>
+    <AppBar className="navbar" position="fixed" sx={navbarStyle}>
+      <BrandLogo title={BRAND_NAME} />
       <DesktopNav sections={sections} title="Shri Krishna Institute" />
     </AppBar>
   );
-};
+}

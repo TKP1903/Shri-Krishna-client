@@ -11,5 +11,4 @@
 ## Demo
 
 <!-- #default-branch-switch -->
-
 View the demo at https://mui.com/getting-started/templates/sign-in/.

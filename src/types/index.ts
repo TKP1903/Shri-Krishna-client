@@ -20,3 +20,28 @@ export interface RegisterDetails {
   city?: string;
   address?: string;
 }
+
+// login details
+export interface LoginDetails {
+  email: string;
+  password: string;
+}
+
+export interface token {
+  token: string;
+  expires: string; // date-time
+}
+
+// login response
+export interface LoginResponse {
+  user: {
+    id: string;
+    email: string;
+    name: string;
+    role: "user" | "admin";
+  };
+  AuthTokens: {
+    access: token;
+    refresh: token;
+  };
+}

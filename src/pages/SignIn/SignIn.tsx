@@ -1,27 +1,31 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import Container from "@mui/material/Container";
+import CssBaseline from "@mui/material/CssBaseline";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+
 // custom imports
-import { isValidEmail, isValidPassword } from "../../utils/validators";
 import { ErrorsMapper } from "../../Components/common";
-import { debounce, throttle } from "../../utils/js";
 // constants
 import { BRAND_NAME } from "../../config";
+// types
+import { LoginDetails, LoginResponse } from "../../types";
+import { login } from "../../utils/api/auth";
+import { debounce, throttle } from "../../utils/js";
+import { isValidEmail, isValidPassword } from "../../utils/validators";
 
+const { useState, useEffect } = React;
 function Copyright(props: any) {
   return (
     <Typography
@@ -51,7 +55,7 @@ export default function SignIn() {
   const navigate = useNavigate();
   if (localStorage.getItem("token")) {
     // redirect to classroom
-    navigate("/classroom");
+    navigate("/user-panel");
   }
   const [rememberMe, setRememberMe] = useState(false);
   const [errors, setErrors] = useState<{
@@ -96,26 +100,28 @@ export default function SignIn() {
     },
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
-      const data = new FormData(event.currentTarget);
-      console.log({
-        email: data.get("email"),
-        password: data.get("password"),
-      });
+      const formData = Object.fromEntries(new FormData(event.currentTarget));
+
+      const loginDetails: LoginDetails = {
+        email: String(formData.email || ""),
+        password: String(formData.password || ""),
+      };
+      console.log({ loginDetails, formData });
 
       // TODO: send data to server
-      // const res = login({
-      //   email: data.get("email"),
-      //   password: data.get("password"),
-      // });
-      // if (rememberMe) {
-      //    localStorage.setItem("token", res.token);
-      // } else {
-      //    sessionStorage.setItem("token", res.token);
-      // }
-      // navigate("/classroom");
+      const res: LoginResponse = await login(loginDetails);
+
+      if (rememberMe) {
+        localStorage.setItem("access_token", res.AuthTokens.access.token);
+        localStorage.setItem("refresh_token", res.AuthTokens.refresh.token);
+      } else {
+        sessionStorage.setItem("access_token", res.AuthTokens.access.token);
+        sessionStorage.setItem("refresh_token", res.AuthTokens.refresh.token);
+      }
+      navigate("/user-panel");
     } catch (err) {
       console.log(err);
     }

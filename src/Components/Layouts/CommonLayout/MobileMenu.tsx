@@ -63,6 +63,7 @@ export default function MobileMenu({
               justifyContent: "flex-end",
               alignItems: "flex-end",
               textAlign: "right",
+              backgroundColor: "transparent",
             },
           }}
           anchor="right"

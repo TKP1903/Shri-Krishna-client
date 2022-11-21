@@ -1,3 +1,4 @@
-import useReload from "./useReload";
+import useIsChanged from './useIsChanged';
+import useReload from './useReload';
 
-export { useReload };
+export { useReload, useIsChanged };

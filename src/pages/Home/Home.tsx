@@ -3,7 +3,7 @@ import Link from "@mui/material/Link";
 
 import CommonLayout from "../../Components/Layouts/CommonLayout";
 
-import PricingHero from "./PricingHero";
+import PricingHero from "./Hero";
 import MainContent from "./MainContent";
 
 function Copyright(props: any) {

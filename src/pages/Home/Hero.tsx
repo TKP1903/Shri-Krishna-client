@@ -33,7 +33,7 @@ export default function Hero() {
           "Segoe UI Emoji", "Segoe UI Symbol" !important`,
         }}
       >
-        Shri Krishna Institute &trade;
+        Shri Krishna Institute<sup>&reg;</sup>
       </Typography>
 
       <Typography
@@ -50,10 +50,10 @@ export default function Hero() {
         Unlock your true potential with courses from world’s top teachers and
         mentors.
       </Typography>
-      <Typography 
-        variant="h5" 
-        align="center" 
-        color="text.Primary" 
+      <Typography
+        variant="h5"
+        align="center"
+        color="text.Primary"
         paragraph
         sx={{
           marginTop: "1rem",

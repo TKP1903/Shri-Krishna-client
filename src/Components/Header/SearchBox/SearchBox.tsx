@@ -8,7 +8,7 @@ import { Button } from "@mui/material";
 import {
   SearchContextProvider,
   useSearchContext,
-} from "../../../helpers/SearchContext/SearchContextProvider";
+} from "../../../helpers/SearchContext/ContextProvider";
 
 import { useContext } from "react";
 

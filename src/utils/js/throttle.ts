@@ -1,21 +1,19 @@
-export default function throttle(func: Function, wait: number) {
-  let timeout: ReturnType<typeof setTimeout> | null;
-  let context: any;
-  let args: any[] | null;
+export default (callback: Function, delay = 250) => {
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  let waitingArgs: any[] | null = null;
 
-  const later = () => {
-    timeout = null;
-    if (args) {
-      func.apply(context, args);
+  return (...args: any[]) => {
+    if (timer) {
+      waitingArgs = args;
+      return;
     }
-    context = args = null;
+    callback(...args);
+    timer = setTimeout(() => {
+      timer = null;
+      if (waitingArgs) {
+        callback(...waitingArgs);
+        waitingArgs = null;
+      }
+    }, delay);
   };
-
-  return function executedFunction(this: any, ...args: any[]) {
-    if (!timeout) {
-      timeout = setTimeout(later, wait);
-      context = this;
-      args = args;
-    }
-  };
-}
+};
