@@ -1,6 +1,17 @@
+
+.home-page-container {
+  background-image: url(hero-background.webp);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-color: var(--bg-color);
+  min-height: 100vh;
+}
+
 header {
   display: flex;
-  flex-direction: row!important;
+  flex-direction: row !important;
   justify-content: space-between;
   align-items: center;
 }
@@ -18,7 +29,7 @@ header {
 } */
 
 .navbar .brand-logo-text {
-  font-family: "Kingthings Petrock", "Poppins", sans-serif;
+  font-family: "Kingthings Petrock Light", "Poppins", sans-serif;
   font-size: 3rem;
   color: black;
   text-transform: lowercase;

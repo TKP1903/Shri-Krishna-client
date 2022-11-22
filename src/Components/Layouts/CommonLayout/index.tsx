@@ -113,15 +113,16 @@ export default function Master({
       <CssBaseline />
       <Container
         maxWidth="xl"
-        style={{
-          backgroundImage: "url(hero-background.webp)",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          backgroundAttachment: "fixed",
-          backgroundColor: "var(--bg-color)",
-          minHeight: "100vh",
-        }}
+        className="home-page-container"
+        // style={{
+        //   backgroundImage: "url(hero-background.webp)",
+        //   backgroundSize: "cover",
+        //   backgroundRepeat: "no-repeat",
+        //   backgroundPosition: "center",
+        //   backgroundAttachment: "fixed",
+        //   backgroundColor: "var(--bg-color)",
+        //   minHeight: "100vh",
+        // }}
       >
         <TopHeader DesktopNav={DesktopNav} sections={sections} />
         {/* Hero unit */}

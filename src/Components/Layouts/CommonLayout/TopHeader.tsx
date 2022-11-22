@@ -15,21 +15,20 @@ const navbarStyles: any = {
   top: {
     backgroundColor: "transparent",
     boxShadow: "none",
-    position: "sticky",
   },
   scrollUp: {
-    position: "fixed",
     transform: "translateY(0)",
     transition: "transform 0.3s ease-in-out",
   },
   scrollDown: {
-    position: "fixed",
     transform: "translateY(-100%)",
     transition: "transform 0.3s ease-in-out",
   },
 };
 const commonStyles = {
   zIndex: 99,
+  position: "sticky",
+  width: "100%",
 };
 
 // add baseline to all properties in navbarStyles
@@ -73,11 +72,6 @@ export default function ({
 
   useEffect(() => {
     console.log({ scrollDirection });
-    const setTopStyles = throttle(() => {
-      if (window.scrollY < 100 && scrollDirIsChanged(scrollDirection)) {
-        setNavbarStyle(navbarStyles.top);
-      }
-    }, 250);
     switch (scrollDirection) {
       case "up":
         setNavbarStyle(navbarStyles.scrollUp);
@@ -86,11 +80,6 @@ export default function ({
         setNavbarStyle(navbarStyles.scrollDown);
         break;
     }
-    window.addEventListener("scroll", setTopStyles);
-
-    return () => {
-      window.removeEventListener("scroll", setTopStyles);
-    };
   }, [scrollDirection]);
 
   return (
