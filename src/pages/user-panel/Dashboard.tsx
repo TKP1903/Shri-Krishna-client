@@ -187,7 +187,7 @@ function DashboardContent() {
                   <Player 
                     video = {{
                       title: "Video 1",
-                      embed: "https://dood.re/e/3t4zqov7es5wd6cri563mj2wygdweryk",
+                      embed: "https://dood.re/e/t9p153k2zzk47h22pvedxk8kzww02mri",
                       description: "This is a video description",
                       thumbnail: "https://i.ytimg.com/vi/7lCDEYXw3mM/hqdefault.jpg",
                       // 1 hour 30 minutes in milliseconds
