@@ -1,12 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
-/* @font-face {
+@font-face {
   font-family: "Kingthings Petrock Light";
   src: url(Kingthings_Petrock-light.ttf);
-} */
+}
 /* @import url(//db.onlinewebfonts.com/c/52fba55d7b0a467180e08145f6d67e56?family=Kingthings+Petrock); */
-@import url(//db.onlinewebfonts.com/c/18f8d5da02769a9cd1285dc960632d2f?family=Kingthings+Petrock+Light);
+/* @import url(https://db.onlinewebfonts.com/c/18f8d5da02769a9cd1285dc960632d2f?family=Kingthings+Petrock+Light); */
 :root {
   --color-primary: #f00;
   --color-secondary: #0f0;
