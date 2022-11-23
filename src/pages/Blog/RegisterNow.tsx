@@ -31,7 +31,7 @@ export default function RegisterNow() {
         variant="text"
         color="primary"
         onClick={() => {
-          navigate("/signup");
+          navigate("/register");
         }}
       >
         Register Now
