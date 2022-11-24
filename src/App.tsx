@@ -1,7 +1,7 @@
 import './App.css';
 
 import { SnackbarProvider, useSnackbar } from 'notistack';
-import { useEffect, useState } from 'react';
+import * as React from 'react';
 import { useNavigate } from 'react-router';
 import { Route, Routes } from 'react-router-dom';
 
@@ -12,10 +12,17 @@ import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import UserPanel from './pages/user-panel';
-const backgroundImageURL
- = "https://images.pexels.com/photos/3771074/pexels-photo-3771074.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
+
+const { useEffect } = React;
+
+const backgroundImageURL =
+  "https://images.pexels.com/photos/3771074/pexels-photo-3771074.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
 
 function App() {
+  const navigate = useNavigate();
+  useEffect (() => {
+    navigate('/#');
+  }, []);
   return (
     <SnackbarProvider maxSnack={3}>
       <div className="App">
