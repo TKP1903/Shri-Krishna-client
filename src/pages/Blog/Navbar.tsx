@@ -3,6 +3,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
 
 import { useState, useEffect, useRef } from "react";
 
@@ -11,6 +12,7 @@ export default function Navbar({
 }: {
   sections: ReadonlyArray<{ title: string; url: string }>;
 }) {
+  const navigate = useNavigate();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -27,7 +29,10 @@ export default function Navbar({
             noWrap
             key={section.title}
             variant="body2"
-            href={section.url}
+            // href={section.url}
+            onClick = {() => {
+              navigate(section.url);
+            }}
             sx={{ p: 1, flexShrink: 0 }}
           >
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>

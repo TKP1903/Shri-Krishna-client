@@ -21,7 +21,10 @@ import MobileMenu from './MobileMenu';
 import MobileNavbar from './MobileNavbar';
 import TopHeader from './TopHeader';
 
+import { useNavigate } from 'react-router-dom';
+
 function Copyright(props: any) {
+  const navigate = useNavigate();
   return (
     <Typography
       variant="body2"
@@ -30,7 +33,7 @@ function Copyright(props: any) {
       {...props}
     >
       {"Copyright ©"}
-      <Link color="inherit" href="/">
+      <Link color="inherit"  onClick = {() => {navigate ("/")}}>
         Your Website
       </Link>{" "}
       {new Date().getFullYear()}
@@ -166,7 +169,7 @@ export default function Master({
               <ul>
                 {footer.description.map((item) => (
                   <li key={item}>
-                    <Link href="#" variant="subtitle1" color="text.secondary">
+                    <Link  variant="subtitle1" color="text.secondary">
                       {item}
                     </Link>
                   </li>

@@ -468,7 +468,7 @@ export default function SignUp() {
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="/login" variant="body2">
+                  <Link  variant="body2" onClick={() => {navigate ("/login")}}>
                     Already have an account? Sign in
                   </Link>
                 </Grid>

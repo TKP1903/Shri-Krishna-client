@@ -4,6 +4,7 @@ import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
+import { useNavigate } from "react-router-dom";
 
 interface SidebarProps {
   archives: ReadonlyArray<{
@@ -19,6 +20,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar(props: SidebarProps) {
+  const navigate = useNavigate();
   const { archives, description, social, title } = props;
 
   return (
@@ -36,7 +38,10 @@ export default function Sidebar(props: SidebarProps) {
         <Link
           display="block"
           variant="body1"
-          href={archive.url}
+          
+          onClick={() => {
+            navigate(archive.url);
+          }}
           key={archive.title}
         >
           {archive.title}
@@ -50,7 +55,7 @@ export default function Sidebar(props: SidebarProps) {
           <Link
             display="block"
             variant="body1"
-            href="#"
+            
             key={network.name}
             sx={{ mb: 0.5 }}
           >

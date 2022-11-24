@@ -32,7 +32,7 @@ export default function Navbar({
             key={section.title}
             variant="button"
             color="text.primary"
-            href="#"
+            
             sx={{ my: 1, mx: 1.5, cursor: "pointer", fontSize: "1.2rem" }}
             onClick={() => navigate(section.url)}
           >

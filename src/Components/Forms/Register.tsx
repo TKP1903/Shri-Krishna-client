@@ -21,6 +21,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import { useSnackbar } from "notistack";
+import { useNavigate } from "react-router";
 import { ErrorsMapper } from "../../Components/common";
 import {
   isValidEmail,
@@ -77,7 +78,7 @@ const CountryCodeMenuItems = CountryCodes.map((obj) => (
 
 export default function Register() {
   const reload = useReload();
-
+  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [isAgreed, setIsAgreed] = useState(false);
 
@@ -427,7 +428,13 @@ export default function Register() {
         </Button>
         <Grid container justifyContent="flex-end">
           <Grid item>
-            <Link href="/login" variant="body2">
+            <Link
+              
+              variant="body2"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
               Already have an account? Sign in
             </Link>
           </Grid>
