@@ -19,10 +19,10 @@ function ScrollContextProvider({ children }: { children: React.ReactNode }) {
       let lastY = window.scrollY;
       return throttle(() => {
         const currY = window.scrollY;
-        console.log("scrolling", {
-          lastY,
-          currY,
-        });
+        // console.log("scrolling", {
+        //   lastY,
+        //   currY,
+        // });
         if (Math.abs(currY - lastY) <= 0.5) {
           lastY = currY;
           setScrollDirection("none");
@@ -51,10 +51,6 @@ function ScrollContextProvider({ children }: { children: React.ReactNode }) {
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
-
-  useEffect(() => {
-    console.log({ scrollDirection });
-  }, [scrollDirection]);
 
   return (
     <ScrollContext.Provider value={{ scrollDirection, setScrollDirection }}>

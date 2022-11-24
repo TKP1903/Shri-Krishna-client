@@ -1,10 +1,12 @@
-import * as React from "react";
+import * as React from 'react';
 
-import { Container } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import { Box } from "@mui/system";
+import { Container } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { Box } from '@mui/system';
 
-import Title from "./Title";
+import Title from './Title';
+
+const { useEffect } = React;
 
 export default function Player({
   video,
@@ -24,6 +26,12 @@ export default function Player({
 }) {
   const theme = useTheme();
 
+  useEffect (() => {
+    if (document.getElementById("player-iframe")) {
+      console.log ();
+    }
+  }, []);
+
   return (
     <React.Fragment>
       <Box
@@ -40,6 +48,7 @@ export default function Player({
           // full width and height
           width="100%"
           height="100%"
+          id="player-iframe"
           src={video.embed}
           title={video.title}
           frameBorder="0"

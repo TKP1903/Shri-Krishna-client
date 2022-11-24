@@ -34,7 +34,6 @@ const commonStyles = {
 // add baseline to all properties in navbarStyles
 Object.keys(navbarStyles).forEach((key, index) => {
   navbarStyles[key] = { ...commonStyles, ...navbarStyles[key] };
-  console.log({ index, style: navbarStyles[key] });
 });
 
 interface section {
@@ -71,7 +70,6 @@ export default function ({
   const scrollDirIsChanged = useIsChanged(scrollDirection);
 
   useEffect(() => {
-    console.log({ scrollDirection });
     switch (scrollDirection) {
       case "up":
         setNavbarStyle(navbarStyles.scrollUp);
