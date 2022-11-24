@@ -22,7 +22,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { BRAND_NAME } from "../../config";
 
-import { useNavigate } from "react-router-dom";
 
 function Copyright() {
   const navigate = useNavigate();
