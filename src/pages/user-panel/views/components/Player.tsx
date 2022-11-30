@@ -14,7 +14,7 @@ export default function Player({
   video,
 }: {
   video: {
-    name: string;
+    title: string;
     embed: string;
     description: string;
     thumbnail: string;
@@ -37,8 +37,7 @@ export default function Player({
     }
     try {
       // trigger focus exception if mouse is over the iframe
-      player.addEventListener("mouseover", 
-      () => {
+      player.addEventListener("mouseover", () => {
         if (!isFocus) {
           onFocus();
         }
@@ -76,20 +75,20 @@ export default function Player({
           <iframe
             // full width and height
             onMouseOver={(() => {
-              let iframe : any;
-              let iframeRect : any;
-              let iframeX : number;
-              let iframeY : number;
-              let iframeWidth : number;
-              let iframeHeight : number;
+              let iframe: any;
+              let iframeRect: any;
+              let iframeX: number;
+              let iframeY: number;
+              let iframeWidth: number;
+              let iframeHeight: number;
 
               try {
-                iframe       = document.querySelector("#player-iframe");
-                iframeRect   = iframe?.getBoundingClientRect();
-                iframeX      = Number (iframeRect?.x);
-                iframeY      = Number (iframeRect?.y);
-                iframeWidth  = Number (iframeRect?.width);
-                iframeHeight = Number (iframeRect?.height);
+                iframe = document.querySelector("#player-iframe");
+                iframeRect = iframe?.getBoundingClientRect();
+                iframeX = Number(iframeRect?.x);
+                iframeY = Number(iframeRect?.y);
+                iframeWidth = Number(iframeRect?.width);
+                iframeHeight = Number(iframeRect?.height);
               } catch (err) {}
 
               return (e) => {
@@ -123,13 +122,13 @@ export default function Player({
             height="100%"
             id="player-iframe"
             // src={video.embed}
-            title={video.titlee}
+            title={video.title}
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />
         </Box>
-        <Title>{video.titlee}</Title>
+        <Title>{video.title}</Title>
       </div>
     </React.Fragment>
   );

@@ -20,7 +20,7 @@ export default function MainContent() {
         >
           <Player
             video={{
-              name: "Video 1",
+              title: "Video 1",
               embed: "https://dood.re/e/t9p153k2zzk47h22pvedxk8kzww02mri",
               description: "This is a video description",
               thumbnail: "https://i.ytimg.com/vi/7lCDEYXw3mM/hqdefault.jpg",
