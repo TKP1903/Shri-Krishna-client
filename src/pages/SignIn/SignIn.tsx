@@ -20,13 +20,14 @@ import Typography from "@mui/material/Typography";
 import { ErrorsMapper } from "../../Components/common";
 // constants
 import { BRAND_NAME } from "../../config";
+import { UserContext } from "../../helpers/UserDataContext";
 // types
 import { LoginDetails, LoginResponse } from "../../types";
 import { login } from "../../utils/api/auth";
 import { debounce, throttle } from "../../utils/js";
 import { isValidEmail, isValidPassword } from "../../utils/validators";
 
-const { useState, useEffect } = React;
+const { useState, useEffect, useContext } = React;
 function Copyright(props: any) {
   return (
     <Typography
@@ -55,11 +56,8 @@ const formData = {
 export default function SignIn() {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
-  if (localStorage.getItem("token")) {
-    // redirect to classroom
-    navigate("/user-panel");
-  }
-  const [rememberMe, setRememberMe] = useState(false);
+  const { setRememberMe, setUser, setTokens } = useContext(UserContext);
+
   const [errors, setErrors] = useState<{
     email: string[];
     password: string[];
@@ -67,6 +65,8 @@ export default function SignIn() {
     email: [],
     password: [],
   });
+
+  //* all hooks end here
 
   const handle = {
     email: (input: string) => {
@@ -111,23 +111,28 @@ export default function SignIn() {
         email: String(formData.email || ""),
         password: String(formData.password || ""),
       };
-      console.log({ loginDetails, formData });
-
       // TODO: send data to server
       const res: LoginResponse = await login(loginDetails);
 
-      if (rememberMe) {
-        localStorage.setItem("access_token", res.tokens.access.token);
-        localStorage.setItem("refresh_token", res.tokens.refresh.token);
-      } else {
-        sessionStorage.setItem("access_token", res.tokens.access.token);
-        sessionStorage.setItem("refresh_token", res.tokens.refresh.token);
-      }
-
+      setUser(res.user);
+      setTokens(res.tokens);
       enqueueSnackbar("Login Successful", {
         variant: "success",
       });
-      navigate("/user-panel");
+      switch (res.user.role) {
+        case "admin":
+          await navigate("/admin-panel");
+          break;
+        case "user":
+          await navigate("/user-panel");
+          break;
+        default:
+          await navigate("/");
+          enqueueSnackbar("Invalid User Role. Contact your adminstrator.", {
+            variant: "error",
+          });
+          break;
+      }
     } catch (err: any) {
       console.log(err);
       enqueueSnackbar(
@@ -220,7 +225,6 @@ export default function SignIn() {
               <Grid container>
                 <Grid item xs>
                   <Link
-                    
                     variant="body2"
                     onClick={() => {
                       navigate("forgot-password");
@@ -230,11 +234,7 @@ export default function SignIn() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link
-                    
-                    variant="body2"
-                    onClick={() => navigate("/register")}
-                  >
+                  <Link variant="body2" onClick={() => navigate("/register")}>
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

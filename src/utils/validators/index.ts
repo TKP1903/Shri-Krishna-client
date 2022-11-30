@@ -1,8 +1,8 @@
-import isValidEmail from "./email";
-import isValidPassword from "./password";
-import isValidUsername from "./userName";
-import isValidPhone from "./phone";
-import isValidName from "./name";
+import isValidEmail from './email';
+import isValidName from './name';
+import isValidPassword from './password';
+import isValidPhone from './phone';
+import isValidUsername from './userName';
 
 export {
   isValidEmail,

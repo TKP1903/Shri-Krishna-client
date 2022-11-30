@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 const useReload = () => {
   const [reload, setReload] = useState(false);

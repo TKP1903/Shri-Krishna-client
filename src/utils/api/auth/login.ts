@@ -1,6 +1,7 @@
-import axios from "axios";
-import { LoginDetails } from "../../../types";
-import { API_URL } from "../../../config";
+import axios from 'axios';
+
+import { API_URL } from '../../../config';
+import { LoginDetails } from '../../../types';
 
 export default async (details: LoginDetails) => {
   try {

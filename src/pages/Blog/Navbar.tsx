@@ -23,11 +23,11 @@ export default function Navbar({
         variant="dense"
         sx={{ justifyContent: "space-between", overflowX: "auto", mx: 2 }}
       >
-        {sections.map((section) => (
+        {sections.map((section, index) => (
           <Link
             color="inherit"
             noWrap
-            key={section.title}
+            key={section.title + index}
             variant="body2"
             // href={section.url}
             onClick = {() => {
@@ -48,11 +48,11 @@ export default function Navbar({
         variant="dense"
         sx={{ justifyContent: "space-between", overflowX: "auto", mx: 2 }}
       >
-        {sections.map((section) => (
+        {sections.map((section, index) => (
           <Link
             color="inherit"
             noWrap
-            key={section.title}
+            key={section.title + index}
             variant="body2"
             href={section.url}
             sx={{ p: 1, flexShrink: 0 }}

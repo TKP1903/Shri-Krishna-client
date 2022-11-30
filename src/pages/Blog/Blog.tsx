@@ -133,8 +133,8 @@ export default function Blog() {
             >
               Our Teachers
             </Typography>
-            {featuredPosts.map((post) => (
-              <FeaturedPost key={post.title} post={post} />
+            {featuredPosts.map((post, index) => (
+              <FeaturedPost key={post.title+ index} post={post} />
             ))}
           </Grid>
           <Grid container spacing={5} sx={{ mt: 3 }}>

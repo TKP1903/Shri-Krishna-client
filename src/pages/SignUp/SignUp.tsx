@@ -3,21 +3,23 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Alert from "@mui/material/Alert";
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import Container from "@mui/material/Container";
-import CssBaseline from "@mui/material/CssBaseline";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Grid from "@mui/material/Grid";
-import InputLabel from "@mui/material/InputLabel";
-import Link from "@mui/material/Link";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import Stack from "@mui/material/Stack";
+import {
+  Alert,
+  Avatar,
+  Box,
+  Button,
+  Checkbox,
+  Container,
+  CssBaseline,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  InputLabel,
+  Link,
+  MenuItem,
+  Select,
+  Stack,
+} from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -212,11 +214,6 @@ export default function SignUp() {
       setIsAgreed(input);
     },
   };
-
-  // debug only
-  useEffect(() => {
-    console.log({ formData });
-  }, [formData]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -468,7 +465,12 @@ export default function SignUp() {
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link  variant="body2" onClick={() => {navigate ("/login")}}>
+                  <Link
+                    variant="body2"
+                    onClick={() => {
+                      navigate("/login");
+                    }}
+                  >
                     Already have an account? Sign in
                   </Link>
                 </Grid>

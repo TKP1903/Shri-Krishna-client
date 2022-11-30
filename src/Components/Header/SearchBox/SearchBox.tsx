@@ -19,6 +19,9 @@ export default function SearchBox() {
       <div
         style={{
           display: "flex",
+          justifyContent: "space-between",
+          gap: "10px",
+          alignItems: "center",
           flexDirection: "row",
           width: "97%",
         }}
@@ -28,7 +31,7 @@ export default function SearchBox() {
           label="Search"
           variant="outlined"
           value={search}
-          onChange={(e : any) => setSearch(e.target.value)}
+          onChange={(e: any) => setSearch(e.target.value)}
           style={{ width: "100%" }}
         />
         <Button

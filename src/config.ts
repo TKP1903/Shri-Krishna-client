@@ -1,6 +1,12 @@
 const BRAND_NAME = "Shri Krishna Institute®";
-const APP_MODE: string = "PROD";
-
+const APP_MODE: string = "DEV";
+const DOODSTREAM_API_URL: string = "https://doodapi.com/api";
+const DOODSTREAM_API_KEY = "131652vem0pxjwggoj207x";
+/**
+ * Admin creds
+ * email : admin@shri-krishna.com
+ * password : Admin@123
+ */
 const API_URL = (() => {
   switch (APP_MODE) {
     case "DEV":
@@ -20,4 +26,6 @@ export {
   BRAND_NAME,
   API_URL,
   APP_MODE,
+  DOODSTREAM_API_KEY,
+  DOODSTREAM_API_URL,
 };

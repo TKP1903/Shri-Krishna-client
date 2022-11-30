@@ -9,7 +9,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import LayersIcon from "@mui/icons-material/Layers";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import SchoolIcon from '@mui/icons-material/School';
+import SchoolIcon from "@mui/icons-material/School";
 
 const mainList = [
   {
@@ -39,7 +39,7 @@ const secondaryList = {
   items: [
     {
       lectureName: "Lecture 1",
-      lectureLink: "https://www.youtube.com/watch?v=1"
+      lectureLink: "https://www.youtube.com/watch?v=1",
     },
     {
       lectureName: "Lecture 2",
@@ -55,7 +55,7 @@ const secondaryList = {
 export const mainListItems = (
   <React.Fragment>
     {mainList.map((item, index) => (
-      <ListItemButton key={index}>
+      <ListItemButton key={"button" + index}>
         <ListItemIcon>{item.icon}</ListItemIcon>
         <ListItemText primary={item.text} />
       </ListItemButton>

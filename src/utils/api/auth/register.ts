@@ -1,6 +1,7 @@
-import axios from "axios";
-import { RegisterDetails } from "../../../types";
-import { API_URL } from "../../../config";
+import axios from 'axios';
+
+import { API_URL } from '../../../config';
+import { RegisterDetails } from '../../../types';
 
 export default async function register(details: RegisterDetails) {
 //   
