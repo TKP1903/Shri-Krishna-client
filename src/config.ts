@@ -1,5 +1,5 @@
 const BRAND_NAME = "Shri Krishna Institute®";
-const APP_MODE: string = "DEV";
+const APP_MODE: string = "PROD";
 const DOODSTREAM_API_URL: string = "https://doodapi.com/api";
 const DOODSTREAM_API_KEY = "131652vem0pxjwggoj207x";
 /**
