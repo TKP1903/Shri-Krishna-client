@@ -4,7 +4,18 @@ import { Grid, Paper, Typography } from "@mui/material";
 
 import { Player, CourseContents } from "../components";
 
-export default function MainContent() {
+import { useQuery } from "react-query";
+import { SavedVideo } from "../../../../types";
+import { PlayingVideoContext } from "../../../../helpers/PlayingVideoContext";
+
+import { getVideoById } from "../../../../utils/api/videos";
+
+const { useContext } = React;
+
+export default function Classroom() {
+  const { playingVideo: video, setPlayingVideo } =
+    useContext(PlayingVideoContext);
+
   return (
     <Grid container spacing={1}>
       {/* Player */}
@@ -18,21 +29,7 @@ export default function MainContent() {
             aspectRatio: "16/9",
           }}
         >
-          <Player
-            video={{
-              title: "Video 1",
-              embed: "https://dood.re/e/t9p153k2zzk47h22pvedxk8kzww02mri",
-              description: "This is a video description",
-              thumbnail: "https://i.ytimg.com/vi/7lCDEYXw3mM/hqdefault.jpg",
-              // 1 hour 30 minutes in milliseconds
-              duration: 5400000,
-              views: 1000,
-              likes: 100,
-              dislikes: 10,
-              comments: 20,
-              publishedAt: "2021-10-10",
-            }}
-          />
+          <Player />
         </Paper>
       </Grid>
       {/* CourseContents */}

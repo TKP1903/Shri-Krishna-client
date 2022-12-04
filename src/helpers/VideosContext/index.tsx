@@ -37,6 +37,7 @@ interface ContextValue {
   videosUploading: VideoUpload[];
   queueVideo: (video: Video) => void;
   cancelUpload: (index: number, video: VideoUpload) => void;
+  savedVideos?: SavedVideo[];
 }
 export const VideosContext = createContext<ContextValue>({
   videosUploading: [],
@@ -371,6 +372,7 @@ export const VideosProvider = ({ children }: { children: React.ReactNode }) => {
         videosUploading,
         queueVideo,
         cancelUpload,
+        savedVideos,
       }}
     >
       {children}

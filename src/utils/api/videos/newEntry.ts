@@ -8,7 +8,7 @@ const newVideoEntry = async (
   token: string,
   cancelTokenSource: any
 ) => {
-  debugger;
+  // debugger;
   try {
     const response = await axios.post<SavedVideo>(`${API_URL}/videos`, data, {
       headers: {

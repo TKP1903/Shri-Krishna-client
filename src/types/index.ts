@@ -76,6 +76,8 @@ export interface VideoEntry extends ArrayElement<CdnUploadRes["result"]> {
 
 export interface SavedVideo extends VideoEntry {
   id?: MongoId;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface Chapter {

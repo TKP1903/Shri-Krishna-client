@@ -11,7 +11,7 @@ import View from "./views";
 
 const { useState, useEffect, useContext } = React;
 
-export default () => {
+const AdminPanel = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { view }: { view?: string } = useParams() || "";
 
@@ -38,7 +38,6 @@ export default () => {
   }
 
   useEffect(() => {
-    
     const CancelToken = axios.CancelToken;
     const CancelTokenSource = CancelToken.source();
     if (overrideView !== null) {
@@ -70,4 +69,8 @@ export default () => {
   }, []);
 
   return <ReturnComponent />;
+};
+
+export default () => {
+  return <AdminPanel />;
 };

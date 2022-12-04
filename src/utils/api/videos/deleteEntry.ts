@@ -3,17 +3,17 @@ import { API_URL } from "../../../config";
 
 import { debounce } from "../../js";
 
-const deleteEntry = (
-  accessToken: string,
+const deleteEntry = async (
   videoId: string,
+  accessToken: string,
   cancelTokenSource: any
 ) => {
   try {
-    return axios.delete(`${API_URL}/videos/${videoId}`, {
+    return await axios.delete(`${API_URL}/videos/${videoId}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
-      cancelToken: cancelTokenSource.token,
+      cancelToken: cancelTokenSource?.token || null,
     });
   } catch (err: any) {
     throw new Error(err?.message || "Unknown error");

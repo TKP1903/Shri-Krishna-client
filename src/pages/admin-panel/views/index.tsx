@@ -1,12 +1,8 @@
-import { useState, useContext } from "react";
-import { Loading as LoadingView } from "./common";
-import {
-  Error404,
-  ErrorLogin,
-  ErrorPermission,
-  ErrorSession,
-} from "./ErrorViews";
-import { Classroom, Courses, RecentUploads } from "./Routes";
+import { useContext, useState } from 'react';
+
+import { Loading as LoadingView } from './common';
+import { Error404, ErrorLogin, ErrorPermission, ErrorSession } from './ErrorViews';
+import { Classroom, Courses, RecentUploads } from './Routes';
 
 export default function Views({ view }: { view?: string }) {
   const ReturnComp = ({ view }: { view?: string }) => {

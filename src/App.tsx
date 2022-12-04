@@ -1,8 +1,8 @@
 import "./App.css";
-
 // react-popup css
 import "reactjs-popup/dist/index.css";
-import { SnackbarProvider, useSnackbar } from "notistack";
+
+import { SnackbarProvider } from "notistack";
 import * as React from "react";
 import { useNavigate } from "react-router";
 import { Route, Routes } from "react-router-dom";
@@ -10,9 +10,10 @@ import { Route, Routes } from "react-router-dom";
 import reactLogo from "./assets/react.svg";
 import { BRAND_NAME } from "./config";
 // import focus context
-import { UserContext, UserProvider } from "./helpers/UserDataContext";
-import { FocusContext, FocusProvider } from "./helpers/FocusContext";
-import { VideosContext, VideosProvider } from "./helpers/VideosContext";
+import { FocusProvider } from "./helpers/FocusContext";
+import { PlayingVideoProvider } from "./helpers/PlayingVideoContext";
+import { UserProvider } from "./helpers/UserDataContext";
+import { VideosProvider } from "./helpers/VideosContext";
 import AdminPanel from "./pages/admin-panel";
 // routes
 import Home from "./pages/Home";
@@ -31,21 +32,25 @@ function App() {
     <SnackbarProvider maxSnack={3}>
       <UserProvider>
         <FocusProvider>
-            <div className="App">
-              <Routes>
-                <Route index path="/" element={<Home />} />
-                <Route path="/login" element={<SignIn />} />
-                <Route path="/register" element={<SignUp />} />
-                <Route path="/forgot-password" element={<></>} />
-                // after login routes // user routes
-                <Route path="/user-panel/" element={<UserPanel />} />
-                <Route path="/user-panel/:view" element={<UserPanel />} />
-                // admin routes
-                <Route path="/admin-panel/:view" element={<AdminPanel />} />
-                <Route path="/admin-panel/" element={<AdminPanel />} />
-                <Route path="*" element={<div> 404 NO PAGE FOUND </div>} />
-              </Routes>
-            </div>
+          <VideosProvider>
+            <PlayingVideoProvider>
+              <div className="App">
+                <Routes>
+                  <Route index path="/" element={<Home />} />
+                  <Route path="/login" element={<SignIn />} />
+                  <Route path="/register" element={<SignUp />} />
+                  <Route path="/forgot-password" element={<></>} />
+                  // after login routes // user routes
+                  <Route path="/user-panel/" element={<UserPanel />} />
+                  <Route path="/user-panel/:view" element={<UserPanel />} />
+                  // admin routes
+                  <Route path="/admin-panel/:view" element={<AdminPanel />} />
+                  <Route path="/admin-panel/" element={<AdminPanel />} />
+                  <Route path="*" element={<div> 404 NO PAGE FOUND </div>} />
+                </Routes>
+              </div>
+            </PlayingVideoProvider>
+          </VideosProvider>
         </FocusProvider>
       </UserProvider>
     </SnackbarProvider>
