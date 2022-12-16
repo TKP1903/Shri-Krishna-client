@@ -13,7 +13,7 @@ const API_URL = (() => {
       return "http://localhost:4000/v1";
     case "PROD":
       // aws ec2
-      return "https://43.205.236.93/v1";
+      return "https://43.205.211.235/v1"; 
     default:
       return "http://localhost:4000/v1";
   }
