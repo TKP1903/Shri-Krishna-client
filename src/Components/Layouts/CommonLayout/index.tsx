@@ -1,27 +1,27 @@
-import '../../../styles/common-layout.css';
+import "../../../styles/common-layout.css";
 
 // react
-import * as React from 'react';
+import * as React from "react";
 
-import StarIcon from '@mui/icons-material/StarBorder';
-import Container from '@mui/material/Container';
+import StarIcon from "@mui/icons-material/StarBorder";
+import Container from "@mui/material/Container";
 // mui components
-import CssBaseline from '@mui/material/CssBaseline';
-import GlobalStyles from '@mui/material/GlobalStyles';
-import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
+import CssBaseline from "@mui/material/CssBaseline";
+import GlobalStyles from "@mui/material/GlobalStyles";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
+import Typography from "@mui/material/Typography";
 // mui hooks
-import useMediaQuery from '@mui/material/useMediaQuery';
+import useMediaQuery from "@mui/material/useMediaQuery";
 
-import { ScrollContextProvider } from '../../../helpers/ScrollContext';
+import { ScrollContextProvider } from "../../../helpers/ScrollContext";
 // local components
-import DesktopNavbar from './DesktopNavbar';
-import MobileMenu from './MobileMenu';
-import MobileNavbar from './MobileNavbar';
-import TopHeader from './TopHeader';
+import DesktopNavbar from "./DesktopNavbar";
+import MobileMenu from "./MobileMenu";
+import MobileNavbar from "./MobileNavbar";
+import TopHeader from "./TopHeader";
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props: any) {
   const navigate = useNavigate();
@@ -33,7 +33,12 @@ function Copyright(props: any) {
       {...props}
     >
       {"Copyright ©"}
-      <Link color="inherit"  onClick = {() => {navigate ("/")}}>
+      <Link
+        color="inherit"
+        onClick={() => {
+          navigate("/");
+        }}
+      >
         Your Website
       </Link>{" "}
       {new Date().getFullYear()}
@@ -137,9 +142,11 @@ export default function Master({
         >
           <Container
             style={{
-              width: "100%",
-              padding: 0,
+              width: "121%",
+              paddingBlock: "26px",
               marginTop: "2rem",
+              background: "#d2d2d294",
+              borderRadius: "1rem",
             }}
           >
             <HeroSection />
@@ -169,7 +176,7 @@ export default function Master({
               <ul>
                 {footer.description.map((item) => (
                   <li key={item}>
-                    <Link  variant="subtitle1" color="text.secondary">
+                    <Link variant="subtitle1" color="text.secondary">
                       {item}
                     </Link>
                   </li>
