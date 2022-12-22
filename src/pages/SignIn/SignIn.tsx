@@ -1,31 +1,34 @@
-import { useSnackbar } from "notistack";
-import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useSnackbar } from 'notistack';
+import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import Container from "@mui/material/Container";
-import CssBaseline from "@mui/material/CssBaseline";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { IconButton, InputAdornment } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
 // custom imports
-import { ErrorsMapper } from "../../Components/common";
+import { ErrorsMapper } from '../../Components/common';
 // constants
-import { BRAND_NAME } from "../../config";
-import { UserContext } from "../../helpers/UserDataContext";
+import { BRAND_NAME } from '../../config';
+import { UserContext } from '../../helpers/UserDataContext';
 // types
-import { LoginDetails, LoginResponse } from "../../types";
-import { login } from "../../utils/api/auth";
-import { debounce, throttle } from "../../utils/js";
-import { isValidEmail, isValidPassword } from "../../utils/validators";
+import { LoginDetails, LoginResponse } from '../../types';
+import { login } from '../../utils/api/auth';
+import { debounce, throttle } from '../../utils/js';
+import { isValidEmail, isValidPassword } from '../../utils/validators';
 
 const { useState, useEffect, useContext } = React;
 function Copyright(props: any) {
@@ -57,6 +60,7 @@ export default function SignIn() {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const { setRememberMe, setUser, setTokens } = useContext(UserContext);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [errors, setErrors] = useState<{
     email: string[];
@@ -69,6 +73,7 @@ export default function SignIn() {
   //* all hooks end here
 
   const handle = {
+    toggleShowPassword: () => setShowPassword((prev) => !prev),
     email: (input: string) => {
       try {
         const err = isValidEmail(input);
@@ -200,7 +205,21 @@ export default function SignIn() {
                 fullWidth
                 name="password"
                 label="Password"
-                type="password"
+                type={showPassword ? "text" : "password"}
+                InputProps={{
+                  // <-- This is where the toggle button is added.
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handle.toggleShowPassword}
+                        onMouseDown={handle.toggleShowPassword}
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
                 id="password"
                 onChange={debounce(
                   (e: any) => handle.password(e.target.value),
