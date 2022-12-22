@@ -3,6 +3,7 @@ import * as React from "react";
 import { Button, Container, Grid } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Box } from "@mui/system";
+import { useNavigate } from "react-router";
 
 import { AreYouSure } from "../../../../Components/Popups/common";
 import { FocusContext } from "../../../../helpers/FocusContext";
@@ -30,6 +31,7 @@ export default function Player() {
   //     publishedAt?: string;
   //   };
   // }
+  const navigate = useNavigate();
   const theme = useTheme();
 
   const { playingVideo, setPlayingVideo } = useContext(PlayingVideoContext);
@@ -88,6 +90,36 @@ export default function Player() {
               alignItems: "center",
             }}
           >
+            {
+              // if video is not available, show a message
+              !video || !video.embed ? (
+                <Container
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <h1>
+                    No video selected. Please{" "}
+                    <a
+                      onClick={() =>
+                        navigate(
+                          user && user.role === "admin"
+                            ? "/admin-panel"
+                            : "/user-panel" + "/recent-uploads"
+                        )
+                      }
+                      style={{ color: theme.palette.primary.main }}
+                    >
+                      open
+                    </a>{" "}
+                    a video.
+                  </h1>
+                </Container>
+              ) : null
+            }
             <iframe
               // full width and height
               onMouseOver={(() => {
